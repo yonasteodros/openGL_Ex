@@ -38,6 +38,33 @@ int main(int argc, char * argv[]){
         exit(EXIT_FAILURE);
     }
   glfwMakeContextCurrent(window);
+
+  glewExperimental = true;
+  GLenum glewError = glewInit();
+  if(glewError != GLEW_OK){
+      printf("glew init erroe\n%s\n",glewGetErrorString(glewError));
+  }
+
+  if (!GLEW_VERSION_4_0)
+  {
+      printf("OPENGL 4.0 is not supported !n");
+      return false;
+
+  }
+
+  const GLubyte * p= glGetString(GL_VERSION);
+  cout <<"Graphics Driver: " << p <<endl;
+  const GLubyte * q = glGetString(GL_SHADING_LANGUAGE_VERSION);
+  cout << "GLSL Version: " << q << endl;
+
+  if(GLEW_ARB_vertex_array_object){
+      printf("genVertexArrays Supported\n");
+  }
+
+  if(GLEW_APPLE_vertex_array_object){
+      printf("genVertexArrayAPPLE supported\n");
+  }
+
   while(!glfwWindowShouldClose(window)){
       glViewport(0,0,w,h);
       glClearColor(1,0,0,1);
@@ -54,8 +81,8 @@ int main(int argc, char * argv[]){
   glfwTerminate();
     
   //Get Version String
-  const GLubyte * p = glGetString(GL_VERSION);
-  cout << "OpenGL Version: " << p << endl;
+  //const GLubyte * p = glGetString(GL_VERSION);
+  //cout << "OpenGL Version: " << p << endl;
   return 0;
 }
 
